@@ -1,0 +1,578 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.sunflower-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #87CEEB, #E0F7FA);
+}
+
+.sunflower {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23FFD700"/><g fill="%23FFA500"><circle cx="50" cy="20" r="10"/><circle cx="73" cy="27" r="10"/><circle cx="80" cy="50" r="10"/><circle cx="73" cy="73" r="10"/><circle cx="50" cy="80" r="10"/><circle cx="27" cy="73" r="10"/><circle cx="20" cy="50" r="10"/><circle cx="27" cy="27" r="10"/></g></svg>') no-repeat center/contain;
+    animation: sway 3s ease-in-out infinite;
+}
+
+@keyframes sway {
+
+    0%,
+    100% {
+        transform: rotate(-5deg);
+    }
+
+    50% {
+        transform: rotate(5deg);
+    }
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 90%;
+    margin: 20px auto;
+    z-index: 1;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.question {
+    display: none;
+    margin-bottom: 20px;
+}
+
+.question.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff6b6b;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.celebration {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2000;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 20px #fff,
+        0 0 30px #ff0,
+        0 0 40px #f0f;
+    z-index: 2001;
+}
+
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(6, 150px);
+    grid-template-rows: repeat(2, 200px);
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    max-width: 1200px;
+    padding: 20px;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 4px solid white;
+    transition: transform 0.3s;
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.custom-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+    animation: popIn 0.3s ease-out;
+}
+
+#namePopup {
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    padding: 40px;
+}
+
+#nameInput {
+    padding: 10px;
+    margin: 20px 0;
+    border: 2px solid #ff758c;
+    border-radius: 5px;
+    width: 200px;
+    font-size: 16px;
+}
+
+.custom-popup.show {
+    display: block;
+}
+
+.popup-emoji {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.success-popup {
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    color: white;
+}
+
+.success-popup button {
+    background-color: white;
+    color: #ff758c;
+    font-weight: bold;
+}
+
+.welcome-popup {
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    color: white;
+    padding: 30px;
+    max-width: 400px;
+}
+
+.floating-hearts {
+    position: absolute;
+    font-size: 24px;
+    animation: float 2s infinite;
+    opacity: 0;
+}
+
+.success-message {
+    font-size: 24px;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#quiz {
+    display: none;
+}
+
+.fade-in {
+    animation: fadeIn 2.5s;
+}
+
+.bounce-in {
+    animation: bounceIn 2.5s;
+}
+
+.rotate-in {
+    animation: rotateIn 2.5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes rotateIn {
+    from {
+        transform: rotate(-180deg) scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: rotate(0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes popIn {
+    from {
+        transform: translate(-50%, -50%) scale(0.7);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+/* Añadimos estilos para los controles de música */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.music-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.2s;
+    margin-right: 10px;
+}
+
+.music-button:hover {
+    transform: scale(1.1);
+}
+
+.music-button.muted {
+    opacity: 0.5;
+}
+
+.volume-control {
+    display: none;
+    margin-left: 10px;
+}
+
+.music-control:hover .volume-control {
+    display: block;
+}
+
+input[type="range"] {
+    width: 100px;
+    height: 4px;
+    background: #ff6b6b;
+    border-radius: 2px;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Estilos para la sección del mensaje */
+.love-message {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.message-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    color: white;
+    animation: fadeInUp 1s ease-out;
+}
+
+.message-title {
+    text-align: center;
+    font-size: 2.5em;
+    margin-top: -5px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.message-text {
+    font-size: 1.2em;
+    line-height: 1.8;
+    text-align: justify;
+    margin-bottom: 30px;
+}
+
+.message-text p {
+    margin-bottom: 10px;
+}
+
+.continue-button {
+    display: block;
+    margin: 30px auto 0;
+    padding: 15px 40px;
+    font-size: 1.2em;
+    background-color: white;
+    color: #ff758c;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.continue-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Vivo Y21s dimensions: 364 x 800 pixels */
+@media screen and (max-width: 364px) and (max-height: 800px) {
+    .container {
+        padding: 12px;
+        margin: 5px auto;
+        width: 95%;
+    }
+
+    .photo-gallery {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 250px;
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .gallery-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    h1 {
+        font-size: 16px;
+    }
+
+    h3 {
+        font-size: 13px;
+    }
+
+    button {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .message-container {
+        padding: 12px;
+        margin: 8px auto;
+    }
+
+    .message-title {
+        font-size: 1.5em;
+    }
+
+    .message-text {
+        font-size: 0.85em;
+        line-height: 1.4;
+    }
+
+    .continue-button {
+        padding: 8px 20px;
+        font-size: 0.9em;
+    }
+
+    .music-control {
+        top: 10px;
+        right: 10px;
+        padding: 8px;
+    }
+
+    .music-button {
+        font-size: 20px;
+    }
+
+    input[type="range"] {
+        width: 80px;
+    }
+}
+
+/* Vivo Y53 dimensions: 360 x 760 pixels */
+@media screen and (max-width: 360px) and (max-height: 760px) {
+    .container {
+        padding: 10px;
+        margin: 4px auto;
+        width: 95%;
+    }
+
+    .photo-gallery {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 230px;
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .gallery-image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    h1 {
+        font-size: 15px;
+    }
+
+    h3 {
+        font-size: 12px;
+    }
+
+    button {
+        padding: 7px;
+        font-size: 11px;
+    }
+
+    .message-container {
+        padding: 10px;
+        margin: 6px auto;
+    }
+
+    .message-title {
+        font-size: 1.4em;
+    }
+
+    .message-text {
+        font-size: 0.8em;
+        line-height: 1.3;
+    }
+
+    .continue-button {
+        padding: 7px 18px;
+        font-size: 0.85em;
+    }
+
+    .music-control {
+        top: 8px;
+        right: 8px;
+        padding: 6px;
+    }
+
+    .music-button {
+        font-size: 18px;
+    }
+
+    input[type="range"] {
+        width: 70px;
+    }
+
+    .custom-popup {
+        width: 90%;
+        padding: 15px;
+    }
+
+    #nameInput {
+        width: 180px;
+        padding: 8px;
+        font-size: 14px;
+    }
+}

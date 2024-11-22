@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cuestionario de Amor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌻</text></svg>"
+        media="(prefers-color-scheme: light)">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Añadimos el elemento de audio -->
+    <audio id="backgroundMusic" loop>
+        <source src="Mi Corazon Encantado - Dragon Ball GT Letra.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <!-- Añadimos el control de música -->
+    <div class="music-control">
+        <button id="toggleMusic" class="music-button">
+            🔊
+        </button>
+        <div class="volume-control">
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+        </div>
+    </div>
+
+    <div class="sunflower-container" id="sunflowerContainer"></div>
+
+    <div id="namePopup" class="custom-popup welcome-popup show">
+        <div class="popup-emoji">🌻</div>
+        <h2>¡Bienvenida mi amor!</h2>
+        <p>Por favor, ingresa tu nombre para comenzar:</p>
+        <input type="text" id="nameInput" placeholder="Tu nombre...">
+        <p id="nameError" style="color: white; display: none;">Solo Daniela puede acceder a este quiz ❤️</p>
+        <button onclick="validateName()">Continuar ❤️</button>
+    </div>
+
+    <div class="container">
+        <h1>💕 Primer Año Para Recordar 💕</h1>
+
+        <div id="quiz">
+            <div class="question active" data-question="1">
+                <h3>¿Donde Fue Nuestro Reencuentro Después De Años?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(1, 'A')">Tu Casa</button>
+                    <button onclick="checkAnswer(1, 'B')">Multicentro</button>
+                    <button onclick="checkAnswer(1, 'C')">En El Centro</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="2">
+                <h3>¿Cuando Fue El Dia Que Decidimos Ser Novios?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(2, 'A')">20 de Noviembre</button>
+                    <button onclick="checkAnswer(2, 'B')">30 de Noviembre</button>
+                    <button onclick="checkAnswer(2, 'C')">7 de Diciembre</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="3">
+                <h3>¿Donde Nos Encontramos El Dia Que Nos Volvimos Novios?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(3, 'A')">La Estacion</button>
+                    <button onclick="checkAnswer(3, 'B')">En Multicentro</button>
+                    <button onclick="checkAnswer(3, 'C')">El Centro</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="4">
+                <h3>¿Cuál Fue Mi Regalo De Cumpleaños Hacia Ti?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(4, 'A')">Una Carta</button>
+                    <button onclick="checkAnswer(4, 'B')">Un Peluche</button>
+                    <button onclick="checkAnswer(4, 'C')">Una Flor</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="5">
+                <h3>¿Dónde Fue Nuestra Primera Cita Oficial?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(5, 'A')">El Parque</button>
+                    <button onclick="checkAnswer(5, 'B')">El Cine</button>
+                    <button onclick="checkAnswer(5, 'C')">Un Restaurante</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="6">
+                <h3>¿Cuál Fue La Primera Película Que Vimos Juntos?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(6, 'A')">Una De Terror</button>
+                    <button onclick="checkAnswer(6, 'B')">Una Romántica</button>
+                    <button onclick="checkAnswer(6, 'C')">Una De Acción</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="7">
+                <h3>¿Qué Comida Pedimos En Nuestra Primera Cena Juntos?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(7, 'A')">Pollo</button>
+                    <button onclick="checkAnswer(7, 'B')">Hamburguesas</button>
+                    <button onclick="checkAnswer(7, 'C')">Perros</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="8">
+                <h3>¿Cuál Fue Nuestro Primer Apodo Cariñoso?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(8, 'A')">Dolly</button>
+                    <button onclick="checkAnswer(8, 'B')">Bebé</button>
+                    <button onclick="checkAnswer(8, 'C')">Yo Soy Ñinda</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="9">
+                <h3>¿Dónde Fue Nuestro Primer Beso?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(9, 'A')">El Parque</button>
+                    <button onclick="checkAnswer(9, 'B')">El Centro</button>
+                    <button onclick="checkAnswer(9, 'C')">Multicentro</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="10">
+                <h3>¿Cuál Fue El Primera Canción Que Bailamos Juntos?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(10, 'A')">Una Balada</button>
+                    <button onclick="checkAnswer(10, 'B')">Un Merengue</button>
+                    <button onclick="checkAnswer(10, 'C')">Reggaeton</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="11">
+                <h3>¿Dónde Pasamos Nuestro Primer Año Juntos?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(11, 'A')">En Tu Casa</button>
+                    <button onclick="checkAnswer(11, 'B')">En Mi Casa</button>
+                    <button onclick="checkAnswer(11, 'C')">En Casa De Familiares</button>
+                </div>
+            </div>
+
+            <div class="question" data-question="12">
+                <h3>¿Donde Dormimos Por Primera Vez Juntos?</h3>
+                <div class="options">
+                    <button onclick="checkAnswer(12, 'A')">En Tu Casa</button>
+                    <button onclick="checkAnswer(12, 'B')">En La Finca</button>
+                    <button onclick="checkAnswer(12, 'C')">Donde Tu Papá</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="love-message" id="loveMessage">
+        <div class="message-container">
+            <h2 class="message-title">Para el amor de mi vida ❤️</h2>
+            <div class="message-text">
+                <p>Mi hermosa Daniela,</p>
+                <p>Ha pasado un año desde que el destino nos volvió a unir, y cada día a tu lado ha sido una bendición.
+                    Tu sonrisa ilumina mis días, tu amor me hace mejor persona, y tu compañía es todo lo que siempre
+                    soñé.</p>
+                <p>Este año juntos ha estado lleno de momentos inolvidables, risas compartidas, sueños construidos y un
+                    amor que crece día a día. Eres mi compañera perfecta, mi mejor amiga, mi confidente y el amor de mi
+                    vida.</p>
+                <p>Cada foto que verás a continuación cuenta una historia especial, un momento único que hemos
+                    compartido juntos. Son apenas algunos de los innumerables recuerdos que hemos creado en este
+                    maravilloso año.</p>
+                <p>Te amo infinitamente, mi amor. ¡Feliz primer aniversario!</p>
+            </div>
+            <button class="continue-button" onclick="showPhotos()">Ver Nuestros Momentos ❤️</button>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <div class="photo-gallery">
+            <img src="Fotos/Foto1.jpg" alt="30/11/2023" class="gallery-image fade-in">
+            <img src="Fotos/Foto2.jpg" alt="03/12/2023" class="gallery-image bounce-in">
+            <img src="Fotos/Foto3.jpg" alt="26/01/2024" class="gallery-image fade-in">
+            <img src="Fotos/Foto4.jpg" alt="18/02/2024" class="gallery-image rotate-in">
+            <img src="Fotos/Foto5.jpg" alt="30/03/2024" class="gallery-image bounce-in">
+            <img src="Fotos/Foto6.jpg" alt="13/04/2024" class="gallery-image rotate-in">
+            <img src="Fotos/Foto7.jpg" alt="29/05/2024" class="gallery-image fade-in">
+            <img src="Fotos/Foto8.jpg" alt="22/06/2024" class="gallery-image bounce-in">
+            <img src="Fotos/Foto9.jpg" alt="28/07/2024" class="gallery-image rotate-in">
+            <img src="Fotos/Foto10.jpg" alt="11/08/2024" class="gallery-image fade-in">
+            <img src="Fotos/Foto11.jpg" alt="22/09/2024" class="gallery-image bounce-in">
+            <img src="Fotos/Foto12.jpg" alt="Foto 12" class="gallery-image rotate-in">
+        </div>
+        <h2 style="color: white; text-shadow: 0 0 10px rgba(255,255,255,0.5); margin-top: 20px;">
+            ¡Feliz Primer Año Juntos! ❤️
+        </h2>
+    </div>
+
+    <div id="errorPopup" class="custom-popup">
+        <div class="popup-emoji">😢</div>
+        <p>¡Esa no es la respuesta correcta!</p>
+        <button onclick="closePopup('errorPopup')">Intentar de nuevo</button>
+    </div>
+
+    <div id="successPopup" class="custom-popup success-popup">
+        <div class="popup-emoji">🥰</div>
+        <div class="success-message">¡Correcto mi amor!</div>
+        <p>Sabía que lo recordarías ❤️</p>
+        <button onclick="closePopup('successPopup')">Continuar</button>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
