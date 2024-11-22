@@ -261,3 +261,131 @@ function showPhotos() {
     document.getElementById('loveMessage').style.display = 'none';
     showCelebration();
 }
+
+// Love languages typing effect
+const loveMessages = [
+    "Te amo ❤️", "I love you ❤️", "Je t'aime ❤️", 
+    "Ti amo ❤️", "Ich liebe dich ❤️", "愛してる ❤️"
+];
+let currentMessageIndex = 0;
+
+function typeLoveMessage() {
+    const element = document.getElementById('loveLanguages');
+    const message = loveMessages[currentMessageIndex];
+    let charIndex = 0;
+
+    element.textContent = '';
+    
+    const typing = setInterval(() => {
+        if (charIndex < message.length) {
+            element.textContent += message[charIndex];
+            charIndex++;
+        } else {
+            clearInterval(typing);
+            setTimeout(() => {
+                currentMessageIndex = (currentMessageIndex + 1) % loveMessages.length;
+                typeLoveMessage();
+            }, 2000);
+        }
+    }, 100);
+}
+
+// Together counter
+function updateCounter() {
+    const startDate = new Date('2023-11-30');
+    const now = new Date();
+    const diff = now - startDate;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+    document.getElementById('togetherCounter').innerHTML = 
+        `Juntos por: ${days} días, ${hours} horas y ${minutes} minutos ❤️`;
+}
+
+// Rose petals animation
+function createPetal() {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    petal.style.left = Math.random() * 100 + 'vw';
+    petal.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    document.body.appendChild(petal);
+
+    petal.addEventListener('animationend', () => petal.remove());
+}
+
+// Shooting stars
+function createStar() {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + 'vw';
+    star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+    document.body.appendChild(star);
+
+    star.addEventListener('animationend', () => star.remove());
+}
+
+// Confetti
+function createConfetti() {
+    const confetti = document.createElement('div');
+    confetti.className = 'confetti';
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    document.body.appendChild(confetti);
+
+    confetti.addEventListener('animationend', () => confetti.remove());
+}
+
+// Background color transition
+function updateBackground(progress) {
+    const hue = 340 + (progress * 20); // Varying shades of pink/red
+    document.body.style.background = `linear-gradient(135deg, hsl(${hue}, 100%, 80%), hsl(${hue-20}, 100%, 70%))`;
+}
+
+// Success sound effect
+function playSuccessSound() {
+    const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZRQ0PVK3n77BdGAg+ltryxnMpBSl+zPDajz0IFmW57OihUBELTKPh8bllHgU2jdTzzn4vBSF6yu/glEILElyx6OyrWBUIQ5zd8sFuJAUuhM/z1YU2Bhxqvu7mnEgODlGq5O+zYBoGPJPY88p2KwUme8rx3ZJACBVhtunto1ITCkmi4PK8aB8GM4nS89GBMQYfccjv45ZEDBFYr+ftrVoXBkCY3PLEcSYELIHO8diJOQgZaLvt559NEAxQqOPwtmIdBjiS1/PMeS0GI3fH8N2RQAoUXrTp66hWFApGnt/yvmwhBTCG0fPTgjQGHW/A7eSaRQ0PVK3m77BeGQc+ltrzxnUoBSh+zPDajz0IFmW57OihUBELTKPh8bllHgU1jdTyzn4vBSF6yu/glEILElyx6OyrWRYIQ5vd8sFuJAUug8/z1oU2Bhxqv+7mnEgODlGq5O+zYRsGPJPY88p3KwUme8rx3ZJACBVhtuv+o1ITCkmi4PG8ah8GMonR89GBMQYfccjv45ZEDBFYr+ftrVwWBj+Y3PLEcSYGLIDP8diJOQgZab3t559NEAxQqOPwtmIdBjiS1/PMeS0GI3fH8N2RQAoUXrTp66hWFApGnt/yv2wiBTCG0fPTgzQGHW/A7eSaRQ0PVa3m77BeGQc+ltvzxnUoBSh+zPDajz0IFmW57OihUBELTKPh8blmHgU1jdTyzn4vBSF6yu/glEILElyx6OyrWRYIQ5vd8sFuJAUug8/z1oU2Bhxqv+7mnEgODlGq5O+zYRsGPJPY88p3KwUmfMrx3ZJACBVhtuv+o1ITCkmi4PG8ah8GMonR89GBMQYfccjv45ZEDBFYr+ftrVwWBj+Y3PLEcSYGLIDP8diJOQgZab3t559NEAxQqOPwtmIdBjiS1/PMeS0GI3fH8N2RQAoUXrTp66hWFApGnt/yv2wiBTCG0fPTgzQGHW/A7eSaRQ0PVa3m77BeGQc+ltvzxnUoBSh+zPDajz0IFmW57OihUBELTKPh8blmHgU1jdTyzn4vBSF6yu/glEILElyx6OyrWRYIQ5vd8sFuJAUug8/z1oU2Bhxqv+7mnEgODlGq5O+zYRsGPJPY88p3KwUmfMrx3ZJACBVhtuv+o1ITCkmi4PG8ah8GMorS89GBMQYfccjv45ZEDBFYr+ftrVwWBj+Y3PLEcSYGLIDP8diJOQgZab3t559NEAxQqOPwtmIdBjiS1/PMeS0GI3fH8N2RQAoUXrTp66hWFApGnt/yv2wiBTCG0fPTgzQGHW/A7eSaRQ0PVa3m77BeGQc+ltvzxnUoBSh+zPDajz0IFmW57OihUBELTKPh8blmHgU1jdTyzn4vBSF6yu/glEILElyx6OyrWRYIQ5vd8sFuJAUug8/z1oU2Bhxqv+7mnEgODlGq5O+zYRsGPJPY88p3KwUmfMrx3ZJACBVhtuv+o1ITCkmi4PG8ah8GMorS89GBMQYfccjv45ZEDBFYr+ftrVwWBj+Y3PLEcSYGLIDP8diJOQgZab3t559NEAxQqOPwtmIdBjiS1/PMeS0GI3fH8N2RQAoUXrTp66hWFApGnt/yv2wiBTCG0fPTgzQGHW/A7eSaRQ0PVa3m77BeGQc+ltvzxnUoBSh+zPDajz0IFmW57OihUBELTKPh8blmHgU1jdTyzn4vBSF6yu/glEILE');
+    audio.play();
+}
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', () => {
+    // Start love messages
+    typeLoveMessage();
+
+    // Start counter
+    updateCounter();
+    setInterval(updateCounter, 60000);
+
+    // Start rose petals
+    setInterval(createPetal, 300);
+
+    // Original initialization code here
+});
+
+// Enhanced checkAnswer function
+const originalCheckAnswer = window.checkAnswer;
+window.checkAnswer = function(question, answer) {
+    if (correctAnswers[question] === answer) {
+        playSuccessSound();
+        for (let i = 0; i < 50; i++) {
+            setTimeout(createConfetti, i * 50);
+        }
+        updateBackground((question - 1) / 11);
+    }
+    originalCheckAnswer(question, answer);
+};
+
+// Enhanced showCelebration function
+const originalShowCelebration = window.showCelebration;
+window.showCelebration = function() {
+    // Start shooting stars
+    setInterval(createStar, 200);
+
+    // Enable heartbeat background
+    document.querySelector('.heartbeat-bg').style.display = 'block';
+
+    originalShowCelebration();
+};

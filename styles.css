@@ -1,7 +1,118 @@
-html,
-body {
+/* Base styles from your original CSS */
+html, body {
     height: 100%;
+    margin: 0;
+    padding: 0;
     overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+/* Love languages typing effect container */
+.love-languages {
+    position: fixed;
+    top: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: black;
+    font-size: 50px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+/* Together counter styles */
+.together-counter {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    text-align: center;
+    font-size: 18px;
+    color: #ff758c;
+}
+
+/* Rose petals */
+.petal {
+    position: fixed;
+    pointer-events: none;
+    width: 15px;
+    height: 15px;
+    background: #ff758c;
+    border-radius: 150% 0 150% 0;
+    animation: falling linear infinite;
+}
+
+@keyframes falling {
+    0% {
+        transform: translate(0, -10vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(100px, 100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Heartbeat background */
+.heartbeat-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #ff758c, transparent);
+    opacity: 0;
+    z-index: -1;
+    animation: heartbeat 1s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); opacity: 0.2; }
+    50% { transform: scale(1.1); opacity: 0.3; }
+    100% { transform: scale(1); opacity: 0.2; }
+}
+
+/* Stars */
+.star {
+    position: fixed;
+    width: 3px;
+    height: 3px;
+    background: white;
+    pointer-events: none;
+    animation: shooting-star linear infinite;
+}
+
+@keyframes shooting-star {
+    0% {
+        transform: translateY(0) rotate(45deg) scale(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(45deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    pointer-events: none;
+    animation: confetti-fall linear infinite;
+}
+
+@keyframes confetti-fall {
+    0% { transform: translateY(-10vh) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
 }
 
 body {
@@ -15,6 +126,8 @@ body {
     position: relative;
     overflow-x: hidden;
 }
+
+
 
 .sunflower-container {
     position: fixed;
