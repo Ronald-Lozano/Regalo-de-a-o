@@ -1,5 +1,5 @@
- // Create sunflowers
- function createSunflowers() {
+// Create sunflowers
+function createSunflowers() {
     const container = document.getElementById('sunflowerContainer');
     const numSunflowers = 20;
 
@@ -22,7 +22,7 @@ function validateName() {
         document.getElementById('namePopup').classList.remove('show');
         document.getElementById('quiz').style.display = 'block';
         errorElement.style.display = 'none';
-        
+
         // Iniciamos la música cuando el nombre es válido
         startMusicOnInteraction();
     } else {
@@ -204,7 +204,7 @@ const volumeSlider = document.getElementById('volumeSlider');
 // Función para iniciar la música
 function initMusic() {
     backgroundMusic.volume = volumeSlider.value;
-    
+
     toggleMusicButton.addEventListener('click', () => {
         if (isMusicPlaying) {
             backgroundMusic.pause();
@@ -264,7 +264,7 @@ function showPhotos() {
 
 // Love languages typing effect
 const loveMessages = [
-    "Te amo ❤️", "I love you ❤️", "Je t'aime ❤️", 
+    "Te amo ❤️", "I love you ❤️", "Je t'aime ❤️",
     "Ti amo ❤️", "Ich liebe dich ❤️", "愛してる ❤️"
 ];
 let currentMessageIndex = 0;
@@ -275,7 +275,7 @@ function typeLoveMessage() {
     let charIndex = 0;
 
     element.textContent = '';
-    
+
     const typing = setInterval(() => {
         if (charIndex < message.length) {
             element.textContent += message[charIndex];
@@ -300,7 +300,7 @@ function updateCounter() {
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-    document.getElementById('togetherCounter').innerHTML = 
+    document.getElementById('togetherCounter').innerHTML =
         `Juntos por: ${days} días, ${hours} horas y ${minutes} minutos ❤️`;
 }
 
@@ -341,7 +341,7 @@ function createConfetti() {
 // Background color transition
 function updateBackground(progress) {
     const hue = 340 + (progress * 20); // Varying shades of pink/red
-    document.body.style.background = `linear-gradient(135deg, hsl(${hue}, 100%, 80%), hsl(${hue-20}, 100%, 70%))`;
+    document.body.style.background = `linear-gradient(135deg, hsl(${hue}, 100%, 80%), hsl(${hue - 20}, 100%, 70%))`;
 }
 
 // Success sound effect
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Enhanced checkAnswer function
 const originalCheckAnswer = window.checkAnswer;
-window.checkAnswer = function(question, answer) {
+window.checkAnswer = function (question, answer) {
     if (correctAnswers[question] === answer) {
         playSuccessSound();
         for (let i = 0; i < 50; i++) {
@@ -380,7 +380,7 @@ window.checkAnswer = function(question, answer) {
 
 // Enhanced showCelebration function
 const originalShowCelebration = window.showCelebration;
-window.showCelebration = function() {
+window.showCelebration = function () {
     // Start shooting stars
     setInterval(createStar, 200);
 
@@ -389,3 +389,15 @@ window.showCelebration = function() {
 
     originalShowCelebration();
 };
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registrado exitosamente:', registration.scope);
+            })
+            .catch(error => {
+                console.log('Error al registrar el ServiceWorker:', error);
+            });
+    });
+}
