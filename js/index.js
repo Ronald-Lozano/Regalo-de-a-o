@@ -391,16 +391,13 @@ window.showCelebration = function () {
 };
 
 if ('serviceWorker' in navigator) {
-    // Usa una función async para manejar mejor los errores
-    async function registerSW() {
-        try {
-            const registration = await navigator.serviceWorker.register('./service-worker.js', {
-                scope: './'
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registrado con éxito:', registration.scope);
+            })
+            .catch(error => {
+                console.error('Error al registrar el Service Worker:', error);
             });
-            console.log('Service Worker registrado con éxito:', registration.scope);
-        } catch (error) {
-            console.error('Error al registrar el Service Worker:', error);
-        }
-    }
-    registerSW();
+    });
 }
