@@ -7,7 +7,7 @@ const localResources = [
     BASE_PATH + 'index.html',
     BASE_PATH + 'css/styles.css',
     BASE_PATH + 'js/index.js',
-    BASE_PATH + 'manifest.json', // Removido './' innecesario
+    BASE_PATH + 'manifest.json',
     BASE_PATH + 'icons/icon-72x72.png',
     BASE_PATH + 'icons/icon-96x96.png',
     BASE_PATH + 'icons/icon-128x128.png',
@@ -31,7 +31,8 @@ const localResources = [
     BASE_PATH + 'Fotos/Foto12.jpg'
 ];
 
-const externalResources = [
+// URL externa corregida
+const CDN_RESOURCES = [
     'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js'
 ];
 
@@ -42,33 +43,38 @@ self.addEventListener('install', event => {
             .then(async cache => {
                 console.log('Iniciando cache');
                 
-                // Primero cachea los recursos locales
-                for (const url of localResources) {
-                    try {
-                        await cache.add(url);
-                    } catch (error) {
-                        console.error('Error cacheando recurso local:', url, error);
-                    }
-                }
-
-                // Luego cachea los recursos externos
-                for (const url of externalResources) {
-                    try {
-                        const response = await fetch(url);
-                        if (response.ok) {
-                            await cache.put(url, response);
+                // Cachear recursos locales
+                await Promise.all(
+                    localResources.map(async url => {
+                        try {
+                            await cache.add(url);
+                        } catch (error) {
+                            console.error('Error cacheando recurso local:', url, error);
                         }
-                    } catch (error) {
-                        console.error('Error cacheando recurso externo:', url, error);
-                    }
-                }
+                    })
+                );
+
+                // Cachear recursos CDN
+                await Promise.all(
+                    CDN_RESOURCES.map(async url => {
+                        try {
+                            const response = await fetch(url, { mode: 'cors' });
+                            if (response.ok) {
+                                await cache.put(url, response);
+                                console.log('Recurso CDN cacheado con éxito:', url);
+                            }
+                        } catch (error) {
+                            console.error('Error cacheando recurso CDN:', url, error);
+                        }
+                    })
+                );
 
                 console.log('Cache completado');
             })
     );
 });
 
-// Activación del Service Worker
+// Activación
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(cacheNames => {
@@ -83,57 +89,46 @@ self.addEventListener('activate', event => {
     );
 });
 
-// Estrategia de cache mejorada
+// Estrategia de fetch
 self.addEventListener('fetch', event => {
-    const url = new URL(event.request.url);
+    // Verifica si es un recurso CDN
+    const isCDNResource = CDN_RESOURCES.includes(event.request.url);
 
-    // Maneja los recursos externos de manera diferente
-    if (externalResources.includes(event.request.url)) {
-        event.respondWith(
-            caches.match(event.request)
-                .then(cachedResponse => {
-                    if (cachedResponse) {
-                        // Intenta actualizar el cache en segundo plano
-                        fetch(event.request)
-                            .then(networkResponse => {
-                                if (networkResponse.ok) {
-                                    caches.open(CACHE_NAME)
-                                        .then(cache => cache.put(event.request, networkResponse));
-                                }
-                            });
-                        return cachedResponse;
-                    }
-                    return fetch(event.request);
-                })
-        );
-        return;
-    }
-
-    // Para recursos locales
     event.respondWith(
         caches.match(event.request)
-            .then(response => {
+            .then(async response => {
+                // Si está en cache, lo devolvemos
                 if (response) {
                     return response;
                 }
 
-                return fetch(event.request)
-                    .then(networkResponse => {
-                        if (!networkResponse || networkResponse.status !== 200) {
-                            return networkResponse;
+                try {
+                    // Si no está en cache, lo buscamos en la red
+                    const networkResponse = await fetch(event.request);
+                    
+                    // Solo cacheamos respuestas válidas
+                    if (networkResponse && networkResponse.status === 200) {
+                        const cache = await caches.open(CACHE_NAME);
+                        // Para recursos CDN, usamos put
+                        if (isCDNResource) {
+                            await cache.put(event.request, networkResponse.clone());
                         }
-
-                        const responseToCache = networkResponse.clone();
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-                                cache.put(event.request, responseToCache);
-                            });
-
-                        return networkResponse;
-                    })
-                    .catch(error => {
-                        console.error('Error en fetch:', error);
-                    });
+                        // Para recursos locales, usamos add
+                        else if (event.request.url.includes(BASE_PATH)) {
+                            try {
+                                await cache.add(event.request.url);
+                            } catch (error) {
+                                console.error('Error cacheando recurso local:', event.request.url);
+                            }
+                        }
+                    }
+                    
+                    return networkResponse;
+                } catch (error) {
+                    console.error('Error en fetch:', error);
+                    // Aquí podrías devolver una respuesta fallback si lo deseas
+                    return new Response('Error de red', { status: 404 });
+                }
             })
     );
 });
